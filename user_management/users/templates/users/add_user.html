@@ -1,0 +1,33 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Добавить нового пользователя{% endblock %}
+
+{% block content %}
+    <h1>Добавить нового пользователя</h1>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.name.label }}</td>
+                <td>{{ form.name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.number.label }}</td>
+                <td>{{ form.number }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.direction.label }}</td>
+                <td>{{ form.direction }}</td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-connect">Добавить пользователя</button>
+    </form>
+
+    <div class="action-buttons">
+        <a href="{% url 'user_list' %}" class="btn btn-delete">Отмена</a>
+    </div>
+{% endblock %}
+
+
+
+

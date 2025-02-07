@@ -1,0 +1,131 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+    <h1>Система управления пользователями</h1>
+
+        <!-- В шаблоне для создания/редактирования пользователя -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+
+
+    <div class="action-buttons">
+        <a href="{% url 'add_user' %}" class="btn btn-connect">Добавить нового пользователя</a>
+        <a href="{% url 'interview_list' %}" class="btn btn-interview">Собеседование</a>
+    </div>
+
+<form method="get">
+    <input type="text" name="search" placeholder="Поиск по имени или номеру" value="{{ search_query }}">
+    <button type="submit" class="btn btn-connect">🔍 Найти</button>
+    <a href="{% url 'user_list' %}" class="btn btn-delete">Сбросить</a>
+</form>
+
+
+    <div class="user-container">
+        <!-- Связанные с вами -->
+        <div class="user-column">
+            <h2>Связанные с вами</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                        <th>Номер</th>
+                        <th>Направление</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in connected_users %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.number }}</td>
+                            <td>{{ user.direction }}</td>
+                            <td>
+                                <div class="buttons">
+                                    <a href="{% url 'edit_user' user.id %}" class="btn btn-edit">Изменить</a>
+                                    <a href="{% url 'toggle_connection' user.id %}" class="btn btn-delete">Вернуть</a>
+                                    <a href="{% url 'delete_user' user.id %}" class="btn btn-delete">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4" class="empty-message">Нет связанных пользователей.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Не связавшиеся -->
+        <div class="user-column">
+            <h2>Не связавшиеся</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                        <th>Номер</th>
+                        <th>Направление</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in not_connected_users %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.number }}</td>
+                            <td>{{ user.direction }}</td>
+                            <td>
+                                <div class="buttons">
+                                    <a href="{% url 'edit_user' user.id %}" class="btn btn-edit">Изменить</a>
+                                    <a href="{% url 'toggle_connection' user.id %}" class="btn btn-connect">Связать</a>
+                                    <a href="{% url 'delete_user' user.id %}" class="btn btn-delete">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4" class="empty-message">Нет несвязанных пользователей.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Корзина -->
+    <div class="user-column trash-section">
+        <h2>Корзина</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Номер</th>
+                    <th>Направление</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in deleted_users %}
+                    <tr>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.number }}</td>
+                        <td>{{ user.direction }}</td>
+                        <td>
+                            <div class="buttons">
+                                <a href="{% url 'restore_user' user.id %}" class="btn btn-connect">Восстановить</a>
+                                <a href="{% url 'permanent_delete_user' user.id %}" class="btn btn-delete">Удалить навсегда</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="4" class="empty-message">Корзина пуста.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+
+
