@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Создать ментора{% endblock %}
+
+{% block content %}
+    <h1>Создать нового ментора</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Создать</button>
+    </form>
+
+    <div class="action-buttons">
+        <a href="{% url 'trainer_list' %}" class="btn btn-back">Назад</a>
+    </div>
+{% endblock %}

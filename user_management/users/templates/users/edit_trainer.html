@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Редактировать ментора {% endblock %}
+
+{% block content %}
+    <h1>Редактировать ментора: {{ trainer.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <div class="action-buttons">
+        <a href="{% url 'trainer_list' %}" class="btn btn-back">Назад</a>
+    </div>
+{% endblock %}

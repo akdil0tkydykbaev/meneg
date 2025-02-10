@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Профиль пользователя{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .profile-container h1 {
+            color: #333;
+        }
+        .profile-info {
+            text-align: left;
+        }
+        .profile-info p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .profile-actions {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+        }
+        .btn-edit { background-color: #f0ad4e; }
+        .btn-delete { background-color: #d9534f; }
+        .btn-back { background-color: #5bc0de; }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

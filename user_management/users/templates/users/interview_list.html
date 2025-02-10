@@ -3,67 +3,121 @@
 {% block title %}Собеседование{% endblock %}
 
 {% block content %}
-    <h1>Список пользователей по собеседованиям</h1>
+    <h1>Собеседование</h1>
 
-    <!-- Кнопка назад -->
     <div class="action-buttons">
-        <a href="{% url 'user_list' %}" class="btn btn-back">Назад к списку пользователей</a>
+        <a href="{% url 'user_list' %}" class="btn btn-back">Назад</a>
+        <a href="{% url 'trainer_list' %}" class="btn btn-trainers">Ментора</a>
     </div>
 
-    <div class="user-container">
-        <!-- Прошедшие собеседование -->
+
+
+    <div class="interview-container">
+        <!-- Frontend -->
         <div class="user-column">
-            <h2>Прошедшие собеседование</h2>
+            <h2>Frontend</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Имя</th>
                         <th>Номер</th>
                         <th>Направление</th>
-                        <th>Действия</th>
+                        <th>Дата и время</th>
+                        <th>Назначить ментора</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in interviewed_users %}
+                    {% for user in frontend_users %}
                         <tr>
                             <td>{{ user.name }}</td>
                             <td>{{ user.number }}</td>
                             <td>{{ user.direction }}</td>
                             <td>
-                                <a href="{% url 'toggle_interview_status' user.id %}" class="btn btn-edit">Отметить как не прошедший</a>
+                                {% if user.interview_date %}
+                                    {{ user.interview_date|date:"d.m.Y H:i" }}
+                                {% else %}
+                                    <form method="post" action="{% url 'assign_interview_date' user.id %}">
+                                        {% csrf_token %}
+                                        <input type="datetime-local" name="interview_date" required>
+                                        <button type="submit">Назначить</button>
+                                    </form>
+                                {% endif %}
                             </td>
-                        </tr>
+                            <td>
+                                    <form method="post" action="{% url 'assign_trainer' user.id %}">
+                                        {% csrf_token %}
+                                        <select name="trainer">
+                                            {% for trainer in trainers %}
+                                             <option value="{{ trainer.id }}">{{ trainer.name }} ({{ trainer.direction }})</option>
+                                         {% endfor %}
+                                        </select>
+                                    <a href="{% url 'assign_trainer' user.id %}">Назначить ментора</a>
+                                    </form>
+                            </td>
+
+                            <td>
+                                <a href="{% url 'edit_user' user.id %}" class="btn btn-edit">✏️</a>
+                                <a href="{% url 'delete_user_permanent' user.id %}" class="btn btn-delete">❌</a>
+                            </td>
+                        <tr>
                     {% empty %}
-                        <tr><td colspan="4" class="empty-message">Нет пользователей, прошедших собеседование.</td></tr>
+                        <tr><td colspan="6" class="empty-message">Нет пользователей для собеседования.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <!-- Не прошедшие собеседование -->
+        <!-- Backend -->
         <div class="user-column">
-            <h2>Не прошедшие собеседование</h2>
+            <h2>Backend</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Имя</th>
                         <th>Номер</th>
                         <th>Направление</th>
-                        <th>Действия</th>
+                        <th>Дата и время</th>
+                        <th>Назначить ментора</th>
+                        <th>Действие</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in not_interviewed_users %}
+                    {% for user in backend_users %}
                         <tr>
                             <td>{{ user.name }}</td>
                             <td>{{ user.number }}</td>
                             <td>{{ user.direction }}</td>
                             <td>
-                                <a href="{% url 'toggle_interview_status' user.id %}" class="btn btn-connect">Отметить как прошедший</a>
+                                {% if user.interview_date %}
+                                    {{ user.interview_date|date:"d.m.Y H:i" }}
+                                {% else %}
+                                    <form method="post" action="{% url 'assign_interview_date' user.id %}">
+                                        {% csrf_token %}
+                                        <input type="datetime-local" name="interview_date" required>
+                                        <button type="submit">Назначить</button>
+                                    </form>
+                                {% endif %}
                             </td>
-                        </tr>
+                            <td>
+                                    <form method="post" action="{% url 'assign_trainer' user.id %}">
+                                        {% csrf_token %}
+                                        <select name="trainer">
+                                            {% for trainer in trainers %}
+                                             <option value="{{ trainer.id }}">{{ trainer.name }} ({{ trainer.direction }})</option>
+                                         {% endfor %}
+                                        </select>
+                                    <a href="{% url 'assign_trainer' user.id %}">Назначить ментора</a>
+                                    </form>
+                            </td>
+                            <td>
+                                <a href="{% url 'edit_user' user.id %}" class="btn btn-edit">✏️</a>
+                                <a href="{% url 'delete_user_permanent' user.id %}" class="btn btn-delete">❌</a>
+                            </td>
+                        <tr>
                     {% empty %}
-                        <tr><td colspan="4" class="empty-message">Нет пользователей, не прошедших собеседование.</td></tr>
+                        <tr><td colspan="6" class="empty-message">Нет пользователей для собеседования.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

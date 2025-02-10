@@ -1,0 +1,86 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Пригласить на собеседование{% endblock %}
+
+{% block content %}
+    <div class="invite-container">
+        <h1>Пригласить на собеседование</h1>
+
+        <div class="user-info">
+            <p><span>Имя:</span> {{ user.name }}</p>
+            <p><span>Фамилия:</span> {{ user.surname }}</p>
+            <p><span>Номер:</span> {{ user.number }}</p>
+            <p><span>Направление:</span> {{ user.direction }}</p>
+        </div>
+
+        <form method="post" class="invite-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-invite">📅 Пригласить</button>
+        </form>
+
+        <a href="{% url 'user_detail' user.id %}" class="btn btn-back">🔙 Назад</a>
+    </div>
+
+    <style>
+        .invite-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-info p {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            background: #eef1f4;
+        }
+
+        .user-info span {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white;
+            border-radius: 8px;
+            margin: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-invite { background: #28a745; }
+        .btn-back { background: #6c757d; }
+    </style>
+{% endblock %}
+
+
+

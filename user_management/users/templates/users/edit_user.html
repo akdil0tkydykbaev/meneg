@@ -1,35 +1,56 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Редактировать {{ user.name }}{% endblock %}
+{% block title %}Редактировать пользователя{% endblock %}
 
 {% block content %}
-    <h1>Редактировать {{ user.name }}</h1>
+    <h1>Редактировать информацию о пользователе</h1>
 
     <form method="post">
         {% csrf_token %}
-
-        <div style="margin-bottom: 20px;">
-            <label for="id_name" style="font-weight: bold;">Имя</label>
-            {{ form.name }}
-        </div>
-
-        <div style="margin-bottom: 20px;">
-            <label for="id_number" style="font-weight: bold;">Номер</label>
-            {{ form.number }}
-        </div>
-
-        <div style="margin-bottom: 20px;">
-            <label for="id_direction" style="font-weight: bold;">Направление</label>
-            {{ form.direction }}
-        </div>
-
-        <div style="margin-top: 20px;">
-            <button type="submit" class="btn btn-edit">Сохранить</button>
-        </div>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-save">Сохранить изменения</button>
     </form>
 
-    <div class="action-buttons" style="margin-top: 20px;">
-        <a href="{% url 'user_list' %}" class="btn btn-delete">Отмена</a>
-    </div>
-{% endblock %}
+    <a href="{% url 'user_detail' user.id %}" class="btn btn-back">Назад к профилю</a>
+
+    <style>
+        .btn-save {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+
+
+<!--    <h1>Редактировать {{ user.name }}</h1>-->
+
+<!--    <form method="post">-->
+<!--        {% csrf_token %}-->
+
+<!--        <div style="margin-bottom: 20px;">-->
+<!--            <label for="id_name" style="font-weight: bold;">Имя</label>-->
+<!--            {{ form.name }}-->
+<!--        </div>-->
+
+<!--        <div style="margin-bottom: 20px;">-->
+<!--            <label for="id_number" style="font-weight: bold;">Номер</label>-->
+<!--            {{ form.number }}-->
+<!--        </div>-->
+
+<!--        <div style="margin-bottom: 20px;">-->
+<!--            <label for="id_direction" style="font-weight: bold;">Направление</label>-->
+<!--            {{ form.direction }}-->
+<!--        </div>-->
+
+<!--        <div style="margin-top: 20px;">-->
+<!--            <button type="submit" class="btn btn-edit">Сохранить</button>-->
+<!--        </div>-->
+<!--    </form>-->
+
+<!--    <div class="action-buttons" style="margin-top: 20px;">-->
+<!--        <a href="{% url 'user_list' %}" class="btn btn-delete">Отмена</a>-->
+<!--    </div>-->
+<!--{% endblock %}-->
 

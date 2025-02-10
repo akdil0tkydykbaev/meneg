@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Назначить ментора{% endblock %}
+
+{% block content %}
+    <h1>Назначить ментора для {{ user.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="trainer">Выберите тренера:</label>
+        <select name="trainer" required>
+            {% for trainer in trainers %}
+                <option value="{{ trainer.id }}">{{ trainer.name }} ({{ trainer.direction }})</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Назначить ментора</button>
+    </form>
+
+    <div class="action-buttons">
+        <a href="{% url 'interview_list' %}" class="btn btn-back">Назад</a>
+    </div>
+{% endblock %}
